@@ -27,6 +27,8 @@ $fname = tempnam("/tmp", "MovimientosTotalesCheques.xls");
 $workbook = &new writeexcel_workbook($fname);
 $worksheet =& $workbook->addworksheet();
 $worksheet ->writeexcel_worksheet('Movimientos Generales de Bancos (Completo)');
+$worksheet2 =& $workbook->addworksheet();
+$worksheet2->writeexcel_worksheet('Resumen General de Cuentas');
 
 //Definimos las columnas a utilizar
 
@@ -137,6 +139,9 @@ while($fg=mysql_fetch_array($queryEmpresa)){
 	//Imprimimos el nombre de la empresa a la que corresponde los mov
 	if($fg["nombre"] != $tempEmp){
 		$worksheet->write($renglonInicial, 0, 'EMPRESA:'.$fg["nombre"], $header);
+		// Escribimos en la segunda hoja
+		$worksheet2->write($renglonInicial, 0, 'EMPRESA: '.$fg['nombre'], $header);
+		
 		$tempEmp=$fg["nombre"];
 	}
     else{
@@ -145,10 +150,8 @@ while($fg=mysql_fetch_array($queryEmpresa)){
 	//Incrementamos el renglon
 	$renglonInicial +=1;
 	
-
 	//Nos traemos las ctas que corresponde a la empresa
-	$sqlCuentas  ="Select noCuenta, banco, saldoinicial, tipoCuenta from BAcuentasBancarias where claveEmpresa='".$fg["claveEmpresa"]."' and ";
-	$sqlCuentas .="(estatus='Ac' or estatus='Ca')";
+	$sqlCuentas  ="Select noCuenta, banco, saldoinicial, tipoCuenta from BAcuentasBancarias where claveEmpresa='".$fg["claveEmpresa"]."' and (estatus='Ac' or estatus='Ca')";
 	$queryCuentas=mysql_query($sqlCuentas);
 	$montoEmpresa=0;
 	
@@ -161,6 +164,40 @@ while($fg=mysql_fetch_array($queryEmpresa)){
 			$worksheet->write($renglonInicial, 3, "Tipo de Cuenta:".$hb["tipoCuenta"]."", $headerB);
 			$worksheet->write($renglonInicial, 4, "Saldo Inicial del Mes : $".number_format($saldo,2)."", $headerB);
 			$tempCta=$hb["noCuenta"];
+			
+			// Obtenemos los Saldos de la cuenta.
+			$sqlSI = "SELECT saldoInicial FROM BAcuentasBancarias WHERE noCuenta LIKE '" . $hb['noCuenta'] . "' ";
+			$querySI =mysql_query($sqlSI);
+			
+			while($rSI = mysql_fetch_assoc($querySI)) {
+				$worksheet2->write($renglonInicial, 1, 'No Cuenta: '. $hb['noCuenta'] . ' ');
+				$worksheet2->write($renglonInicial, 2, "Banco: " . $hb['banco'] . "");
+				$worksheet2->write($renglonInicial, 3, "Tipo de cuenta: " . $hb['tipoCuenta'] . "");
+				$worksheet2->write($renglonInicial, 4, "Saldo Inicial del Mes: " . $rSI['saldoInicial'] . "");
+			}
+			
+			// Obtenemos el saldo hasta el mes anterior y el saldo de los consumos del mes.
+			
+			$sqlST = "SELECT FORMAT(SUM(montoMovimiento),2) as ST FROM BAmovimientosCuentas WHERE claveCuenta like '" . $hb['noCuenta'] . "' AND  fechaRegistro < DATE_ADD(CURRENT_DATE, INTERVAL(1-DAYOFMonth(CURRENT_DATE)) day) ";
+			$queryST = mysql_query($sqlST);
+			while($rST = mysql_fetch_assoc($queryST)) {
+				$worksheet2->write($renglonInicial, 5, "Saldo inicial al final del mes anterior: $" . $rST['ST'] . "");
+			}
+			
+			// Obtenemos los Movimientos de cargo del mes
+			$sqlCargos= "SELECT SUM(montoMovimiento) as sumC, COUNT(montoMovimiento) as contC FROM BAmovimientosCuentas WHERE claveCuenta like '" . $hb['noCuenta'] . "' AND  fechaRegistro between DATE_ADD(CURRENT_DATE, INTERVAL(1-DAYOFMonth(CURRENT_DATE)) day)  AND CURDATE() AND descripcionMov = 1";
+			$queryCargos = mysql_query($sqlCargos);
+			while($rCar = mysql_fetch_assoc($queryCargos)) {
+				$worksheet2->write($renglonInicial, 6, "Total Cargos: " . $rCar['sumC'] . " - Total de Movimientos: " . $rCar['contC'] . " ");
+			}
+			
+			// Obtenemos los Movimientos de abono del mes
+			
+			$sqlAbonos= "SELECT SUM(montoMovimiento) as sumA, COUNT(montoMovimiento) as contA FROM BAmovimientosCuentas WHERE claveCuenta like '" . $hb['noCuenta'] . "' AND  fechaRegistro between DATE_ADD(CURRENT_DATE, INTERVAL(1-DAYOFMonth(CURRENT_DATE)) day)  AND CURDATE() AND descripcionMov = 2";
+			$queryAbonos = mysql_query($sqlCargos);
+			while($rAbo = mysql_fetch_assoc($queryAbonos)) {
+				$worksheet2->write($renglonInicial, 7, "Total Abonos: " . $rAbo['sumA'] . " - Total de Movimientos: " . $rAbo['contA'] . " ");
+			}
 			
 			//Incrementamos el renglon
 	        $renglonInicial +=1;
