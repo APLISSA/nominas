@@ -107,7 +107,8 @@ $worksheet3->set_column(0, 0, 60); // Empresa
 $worksheet3->set_column(1, 1, 20); // No. Cuenta
 $worksheet3->set_column(2, 2, 20); // Banco
 $worksheet3->set_column(3, 3, 20); // Saldo Total
-$worksheet3->set_column(4, 4, 20); // Saldo Inicial
+//$worksheet3->set_column(4, 4, 20); // Saldo Inicial
+$worksheet3->set_column(4, 4, 3); // Saldo Inicial
 $worksheet3->set_column(5, 5, 10); // Num Depositos
 $worksheet3->set_column(6, 6, 16); // Monto Depositos
 $worksheet3->set_column(7, 7, 10); // Num Retiros
@@ -131,7 +132,8 @@ $worksheet3->write(5, 0, "EMPRESA.", $headerC);
 $worksheet3->write(5, 1, "Numero de Cuenta", $headerC);
 $worksheet3->write(5, 2, "BANCO", $headerC);
 $worksheet3->write(5, 3, "SALDO", $headerC);
-$worksheet3->write(5, 4, "SALDO\n INICIAL", $headerC);
+//$worksheet3->write(5, 4, "SALDO\n INICIAL", $headerC);
+$worksheet3->write(5, 4, "", $headerC);
 $worksheet3->write(5, 5, "NUM\n ABONOS", $headerC);
 $worksheet3->write(5, 6, "MONTO\n ABONOS", $headerC);
 $worksheet3->write(5, 7, "NUM\n RETIROS", $headerC);
@@ -269,7 +271,7 @@ while($fg=mysql_fetch_array($queryEmpresa)){
 			
 			// Hacemos calculos de Totales
 			//$rhFI = $rhFI + $rhAB - $rhRE - $rhCH;
-			$rhFI = $rhFI + $rhABF - $rhREF - $rhCHF;
+			$rhFI = $rhFI + $rhSI + $rhABF - $rhREF - $rhCHF;
 			
 			$rhS = $rhSI + $rhABF - $rhREF - $rhCHF;
 			
@@ -277,7 +279,7 @@ while($fg=mysql_fetch_array($queryEmpresa)){
 			$worksheet3->write($rengJ, 1, " " . $noCuenta, $textG);
 			$worksheet3->write($rengJ, 2, $nomBanco, $textG);
 			$worksheet3->write($rengJ, 3, $rhS, $textE);
-			$worksheet3->write($rengJ, 4, $rhSI, $textE);
+			//$worksheet3->write($rengJ, 4, $rhSI, $textE);
 			$worksheet3->write($rengJ, 5, $intAB, $textF);
 			$worksheet3->write($rengJ, 6, $rhAB, $textE);
 			$worksheet3->write($rengJ, 7, $intRE, $textF);
