@@ -9,11 +9,42 @@ $conn = phpmkr_db_connect(HOST, USER, PASS, DB, PORT);
 		?>
 <!--<script type="text/javascript" src="ingreso_sin_recargar.js"></script>-->
 <script type="text/javascript">
+
+$.extend( $.fn.dataTable.defaults, {
+    //"searching": false,
+    //"ordering": false,
+	"order": [[ 1, "asc" ]],
+	"pageLength": 40
+} );
+
 $(document).ready(function() { 
-    $("table#MiTablita")
-//    .tablesorter({widthFixed: true, widgets: ['zebra']}) 
-	.tablesorter() 
-    //.tablesorterPager({container: $("#pager")}); 
+    $("table#MiTablita").dataTable({
+		//"pageLength": 40,
+		"language": {
+			"sProcessing":     "Procesando...",
+			"sLengthMenu":     "Mostrar _MENU_ registros",
+			"sZeroRecords":    "No se encontraron resultados",
+			"sEmptyTable":     "Ningún dato disponible en esta tabla",
+			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			"sInfoPostFix":    "",
+			"sSearch":         "Buscar:",
+			"sUrl":            "",
+			"sInfoThousands":  ",",
+			"sLoadingRecords": "Cargando...",
+			"oPaginate": {
+				"sFirst":    "Primero",
+				"sLast":     "Último",
+				"sNext":     "Siguiente",
+				"sPrevious": "Anterior"
+				},
+			"oAria": {
+				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			}
+		});
 }); 
 </script>
 
@@ -30,30 +61,37 @@ div#titulos
 }
 </style>
 
-<div id="main">
-<div id="titulos">
- <div align="center"><br>
-      <p class="tituloPrinRep">Catalogo de Trabajadores<br>
-		
-		<table cellspacing="1" border='1' class="table table-bordered table-striped tablesorter" id="MiTablita">
+<!--<div id="main">
+<div id="titulos">-->
+<br />
+<br />
+<br />
+<p class="tituloPrinRep">Catalogo de Trabajadores</p>
+
+<br />
+<div>
+<div class="container">
+	<div class="row">
+	<div class=" col-md-10 col-md-offset-1">
+		<table cellspacing="1" border='1' class="table table-bordered table-striped table-condensed" id="MiTablita">
         <thead>
-			<tr class="info">
-				<th class="header">Clave</th>
-				<th class="header">Nombre Completo</th>
-				<th class="header">H.E. Dobles</th>
-				<th class="header">H.E. Triples</th>
-				<th class="header">Tot. Horas</th>
-				<th class="header">Limpiar registro horas</th>
+			<tr class="info" style="font-size:14; font-weight: bold;">
+				<th class="header">Clave <span class="glyphicon glyphicon-sort"><span></th>
+				<th class="header">Nombre Completo <span class="glyphicon glyphicon-sort"><span></th>
+				<th class="header">H.E. Dobles <span class="glyphicon glyphicon-sort"><span></th>
+				<th class="header">H.E. Triples <span class="glyphicon glyphicon-sort"><span></th>
+				<th class="header">Tot. Horas <span class="glyphicon glyphicon-sort"><span></th>
+				<th class="header">Limpiar<br />registro<br />horas <span class="glyphicon glyphicon-sort"><span></th>
 			</tr>
 		</thead>
-        <tfoot><tr>
+        <!--<tfoot><tr>
 		  <th>Clave</th>
           <th>Nombre Completo</th>
           <th>H.E. Dobles</th>
           <th>H.E. Triples</th>
           <th>T. Horas</th>
 		  <th>Limpiar registro horas</th> 
-        </tr></tfoot>
+        </tr></tfoot>-->
         <tbody>
           <?php
           		$sql  = " SELECT T.nombre, T.paterno, T.materno, T.clave_trabajador FROM trabajador as T ";
@@ -77,50 +115,31 @@ div#titulos
 					list($id, $horas_doble, $horas_triples, $total, $tipo)=explode('/', $arreglo);
           ?>
           <tr id='<?php echo $clave_trabajador; ?>' class='edit_tr'>
-		  <td class='listadoInformacion'><?php echo $clave_trabajador; ?></td>
-          <td class='listadoInformacion'><?php echo $nombre; ?> </td>
-          <td class='edit_td'>
+		  <!--<td class='listadoInformacion'><?php //echo $clave_trabajador; ?></td>-->
+		  <td style="font-size:11;"><?php echo $clave_trabajador; ?></td>
+          <td style="font-size:11;"><?php echo $nombre; ?> </td>
+          <td class='edit_td'  style="font-size:11;">
 			<span id="dobles_<?php echo $clave_trabajador; ?>" class="text"><?php echo $horas_doble; ?></span>
 			<input type="text" value="<?php echo $horas_doble; ?>" class="editbox" id="dobles_input_<?php echo $clave_trabajador; ?>" />
 		  </td>
-          <td class='edit_td'>
+          <td class='edit_td'  style="font-size:11;">
 			<span id="triples_<?php echo $clave_trabajador; ?>" class="text"><?php echo $horas_triples; ?></span>
 			<input type="text" value="<?php echo $horas_triples; ?>" class="editbox" id="triples_input_<?php echo $clave_trabajador; ?>" />
 		  </td>
-          <td class='listadoInformacion' id="total_<?php echo $clave_trabajador; ?>"><?php echo $total; ?></td>
-          <td>
-			<a href="#" class="btn btn-danger" role="button" onClick='return false;'><span class="glyphicon glyphicon-trash"></span></a>
+          <td id="total_<?php echo $clave_trabajador; ?>"  style="font-size:11;"><?php echo $total; ?></td>
+          <td style="font-size:11;">
+			<a href="#" class="btn btn-sm btn-danger" role="button" onClick='return false;'><span class="glyphicon glyphicon-trash white"></span></a>
 		  </td>
           </tr>
           <?php
-              //$d += 1;
           		}
           ?>
           
 		</tbody>
     </table>
-	
-  </div>
+	</div>
+	</div>
 </div>
-</div>
-<div id="abajo">
-<!--
-<div id="pager" class="pager">
-	    <form>
-		<img src="image/first.png" class="first"/>
-		<img src="image/prev.png" class="prev"/>
-		<input type="text" class="pagedisplay"/>
-		<img src="image/next.png" class="next"/>
-		<img src="image/last.png" class="last"/>
-		<select class="pagesize" id="pager">
-			<option selected="selected" value="10">10</option>
-			<option value="20">20</option>
-			<option value="30">30</option>
-			<option value="40">40</option>
-		</select>
-	</form>
-   </div>-->
-   </div>
 
 <?php 
 

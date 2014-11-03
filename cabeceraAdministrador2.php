@@ -36,13 +36,17 @@
 <!-- Estilos -->
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <link type="image/x-icon" href="favicon.ico" rel="shortcut icon" />
-<link href="js/themes/blue/style.css" type="text/css" rel="stylesheet"/>
 <link href="style/estilosNominas.css" rel="stylesheet" type="text/css" />
-<link href="css/jquery.tablesorter.pager2.css" rel="stylesheet" type="text/css" />
+<!-- Estilos para el table sorter -->
+<!--<link href="js/themes/blue/style.css" type="text/css" rel="stylesheet"/>
+<link href="css/jquery.tablesorter.pager2.css" rel="stylesheet" type="text/css" /> -->
+
 <link rel="stylesheet" type="text/css" media="all" href="style/calendar-tas.css" title="win2k-cold-1" />
 <link rel="stylesheet" href="css/styleIconos.css" type="text/css" charset="utf-8" />
 <!-- aqui aplicamos el estil a todas las formas y que esto se debe hacer pero se debera corregir en todas las formas el como se ven los campos. -->
 <link rel="stylesheet" href="css/bootstrap3.css" />
+<!-- Estilos para dataTables -->
+<!--<link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css">-->
 
 <!-- Estilos -->
 
@@ -53,10 +57,13 @@
 <script type="text/javascript" src="js/bootstrap-typeahead.js"></script>
 <script type="text/javascript" src="js/bootstrap3.js"></script>
 <!-- <script type="text/javascript" src="js/jquery-latest.js"></script> -->
-<script type="text/javascript" src="js/jquery.tablesorter2.js"></script>
-<script type="text/javascript" src="js/jquery.tablesorter.pager2.js"></script>
+<!--<script type="text/javascript" src="js/jquery.tablesorter2.js"></script>
+<script type="text/javascript" src="js/jquery.tablesorter.pager2.js"></script>-->
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
+<!-- Librerias del dataTables -->
+<script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="js/dataTables.bootstrap.js"></script>
 
 <!-- Librerias de JQuery -->
 <script type="text/javascript" src="wForms.js"></script>
@@ -217,10 +224,14 @@ muestra_oculta('contenido_a_mostrar');// "contenido_a_mostrar" es el nombre que 
 	.editbox {
 		display	:	none;
 	}
+	
+	.white, .white a {
+		color: #fff;
+	}
 </style>
 </head>
-
-<body style="font-size:62.5%;">
+<body>
+<!--<body style="font-size:62.5%;">-->
 <div>
 <table width="1039" height="112" border="0" align="center" cellpadding="0" cellspacing="0" id="TablaCabecera">
 
