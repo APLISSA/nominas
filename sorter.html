@@ -1,0 +1,73 @@
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter2.js"></script> 
+<script type="text/javascript" src="js/bootstrap3.js"></script> 
+<link rel="stylesheet" href="css/bootstrap3.css" />
+<link rel="stylesheet" href="js/themes/blue/style.css" />
+
+</head>
+
+<body>
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<h6>
+<table id="myTable" class="table table-striped table-bordered"> 
+<thead> 
+<tr class="info"> 
+    <th>Last Name&nbsp;&nbsp;<span class="glyphicon glyphicon-sort"></span></th> 
+    <th>First Name&nbsp;&nbsp;<span class="glyphicon glyphicon-sort"></span></th> 
+    <th>Email&nbsp;&nbsp;<span class="glyphicon glyphicon-sort"></span></th> 
+    <th>Due&nbsp;&nbsp;<span class="glyphicon glyphicon-sort"></span></th> 
+    <th>Web Site&nbsp;&nbsp;<span class="glyphicon glyphicon-sort"></span></th> 
+</tr> 
+</thead> 
+<tbody> 
+<tr> 
+    <td><h6>Smith</h6></td> 
+    <td><h6>John</h6></td> 
+    <td><h6>jsmith@gmail.com</h6></td> 
+    <td><h6>$50.00</h6></td> 
+    <td><h6>http://www.jsmith.com</h6></td> 
+</tr> 
+<tr> 
+    <td><h6>Bach</h6></td> 
+    <td><h6>Frank</h6></td> 
+    <td><h6>fbach@yahoo.com</h6></td> 
+    <td><h6>$50.00</h6></td> 
+    <td><h6>http://www.frank.com</h6></td> 
+</tr> 
+<tr> 
+    <td><h6>Doe</h6></td> 
+    <td><h6>Jason</h6></td> 
+    <td><h6>jdoe@hotmail.com</h6></td> 
+    <td><h6>$100.00</h6></td> 
+    <td><h6>http://www.jdoe.com</h6></td> 
+</tr> 
+<tr> 
+    <td><h6>Conway</h6></td> 
+    <td><h6>Tim</h6></td> 
+    <td><h6>tconway@earthlink.net</h6></td> 
+    <td><h6>$50.00</h6></td> 
+    <td><h6>http://www.timconway.com</h6></td> 
+</tr> 
+</tbody> 
+</table> 
+
+<button class="btn btn-info">Boton de prueba</button>
+
+</div>
+</div> <!-- Cerramos ROW -->
+</div> <!-- Cerramos Container -->
+<script>
+	$(document).ready(function() 
+		{ 
+			$("#myTable").tablesorter({widgets: ['zebra']}); 
+		} 
+	); 
+</script>
+
+</body>
+
+</html>
